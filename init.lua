@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -733,16 +733,22 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    clangd = {},
     -- gopls = {},
-    -- pyright = {},
+    pyright = {},
     -- tsc = {},
     --
     -- Some languages (like rust) have entire language plugins that can be useful:
     --    https://github.com/mrcjkb/rustaceanvim
     --
     -- But for many setups, the LSP (`rust_analyzer`) will work just fine
-    -- rust_analyzer = {},
+    rust_analyzer = {},
+
+    jdtls = { -- Java
+      -- javaagent lets jdtls resolve Lombok-generated code (getters/setters/builders/etc.)
+      cmd = { 'jdtls', '--jvm-arg=-javaagent:' .. vim.fn.stdpath 'data' .. '/mason/packages/jdtls/lombok.jar' },
+    },
+    ts_ls = {}, -- JavaScript/TypeScript (also covers JSX/TSX for React)
 
     stylua = {}, -- Used to format Lua code
 
@@ -948,7 +954,26 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = {
+    'bash',
+    'c',
+    'cpp',
+    'diff',
+    'html',
+    'java',
+    'javascript',
+    'lua',
+    'luadoc',
+    'markdown',
+    'markdown_inline',
+    'python',
+    'query',
+    'rust',
+    'tsx',
+    'typescript',
+    'vim',
+    'vimdoc',
+  }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
@@ -1001,7 +1026,37 @@ do
 end
 
 -- ============================================================
--- SECTION 10: OPTIONAL EXAMPLES / NEXT STEPS
+-- SECTION 10: FILE EXPLORER
+-- neo-tree.nvim setup and keymap
+-- ============================================================
+do
+  vim.pack.add {
+    gh 'nvim-lua/plenary.nvim',
+    gh 'MunifTanjim/nui.nvim',
+    gh 'nvim-neo-tree/neo-tree.nvim',
+  }
+
+  require('neo-tree').setup {
+    window = {
+      mappings = {
+        ['l'] = 'open', -- expand directory / open file
+        ['h'] = 'close_node', -- collapse the current directory
+      },
+    },
+    filesystem = {
+      follow_current_file = { enabled = true },
+      filtered_items = {
+        hide_dotfiles = false,
+        hide_gitignored = false,
+      },
+    },
+  }
+
+  vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle file [E]xplorer' })
+end
+
+-- ============================================================
+-- SECTION 11: OPTIONAL EXAMPLES / NEXT STEPS
 -- kickstart.plugins.* examples
 -- ============================================================
 do
