@@ -1062,7 +1062,31 @@ do
 end
 
 -- ============================================================
--- SECTION 11: OPTIONAL EXAMPLES / NEXT STEPS
+-- SECTION 11: CLAUDE CODE INTEGRATION
+-- claudecode.nvim setup and keymaps
+-- ============================================================
+do
+  -- Bridges Neovim with a running Claude Code CLI session: send buffers/selections
+  -- as context, review and accept/deny diffs Claude proposes, right from the editor.
+  -- Requires the `claude` CLI to be installed and on your PATH.
+  vim.pack.add {
+    gh 'folke/snacks.nvim',
+    gh 'coder/claudecode.nvim',
+  }
+
+  require('claudecode').setup {}
+
+  vim.keymap.set('n', '<leader>ac', '<cmd>ClaudeCode<cr>', { desc = '[A]I [C]laude: toggle' })
+  vim.keymap.set('n', '<leader>af', '<cmd>ClaudeCodeFocus<cr>', { desc = '[A]I [F]ocus Claude' })
+  vim.keymap.set('n', '<leader>am', '<cmd>ClaudeCodeSelectModel<cr>', { desc = '[A]I select [M]odel' })
+  vim.keymap.set('n', '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', { desc = '[A]I add current [B]uffer' })
+  vim.keymap.set('v', '<leader>as', '<cmd>ClaudeCodeSend<cr>', { desc = '[A]I [S]end selection' })
+  vim.keymap.set('n', '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', { desc = '[A]I [A]ccept diff' })
+  vim.keymap.set('n', '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', { desc = '[A]I [D]eny diff' })
+end
+
+-- ============================================================
+-- SECTION 12: OPTIONAL EXAMPLES / NEXT STEPS
 -- kickstart.plugins.* examples
 -- ============================================================
 do

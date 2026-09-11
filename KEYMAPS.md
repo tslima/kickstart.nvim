@@ -111,3 +111,15 @@
 | `h` | Normal (dentro do neo-tree) | Fechar o diretório atual |
 | `<cr>` | Normal (dentro do neo-tree) | Abrir (padrão do plugin) |
 | `<space>` | Normal (dentro do neo-tree) | Expandir/colapsar nó (padrão do plugin) |
+
+## Integração com Claude Code (claudecode.nvim)
+
+| Atalho | Modo | Ação |
+|---|---|---|
+| `<leader>ac` | Normal | Abrir/fechar o Claude Code |
+| `<leader>af` | Normal | Focar na janela do Claude |
+| `<leader>am` | Normal | Selecionar modelo |
+| `<leader>ab` | Normal | Adicionar buffer atual como contexto |
+| `<leader>as` | Visual | Enviar seleção para o Claude |
+| `<leader>aa` | Normal | Aceitar diff proposto |
+| `<leader>ad` | Normal | Rejeitar diff proposto |
