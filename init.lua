@@ -745,8 +745,14 @@ do
     rust_analyzer = {},
 
     jdtls = { -- Java
-      -- javaagent lets jdtls resolve Lombok-generated code (getters/setters/builders/etc.)
-      cmd = { 'jdtls', '--jvm-arg=-javaagent:' .. vim.fn.stdpath 'data' .. '/mason/packages/jdtls/lombok.jar' },
+      cmd = {
+        'jdtls',
+        -- jdtls requires Java 21+, but the system JAVA_HOME points to Java 17 (used by other projects),
+        -- and jdtls prefers JAVA_HOME over PATH, so it must be overridden explicitly here.
+        '--java-executable=/usr/lib/jvm/java-21-openjdk-amd64/bin/java',
+        -- javaagent lets jdtls resolve Lombok-generated code (getters/setters/builders/etc.)
+        '--jvm-arg=-javaagent:' .. vim.fn.stdpath 'data' .. '/mason/packages/jdtls/lombok.jar',
+      },
     },
     ts_ls = {}, -- JavaScript/TypeScript (also covers JSX/TSX for React)
 
